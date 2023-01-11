@@ -1,0 +1,1 @@
+# KASISKI METHOD
