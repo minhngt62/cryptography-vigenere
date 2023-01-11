@@ -8,7 +8,7 @@ Our work is to implement the encryption and decryption of Vigenere cipher, then 
   <img src="https://user-images.githubusercontent.com/86721208/211774407-7f27727f-ff57-456a-818a-f8b68e841cbf.png" />
 </p>
 
-## Deep Learning - DSAI K65: Group 16
+## Introduction to Cryptography - DSAI K65: Group 16
 1. Nguyễn Tống Minh (Email: minh.nt204885@sis.hust.edu.vn)
 2. Nguyễn Thị Hương Giang (Email: giang.nth200185@sis.hust.edu.vn)
 3. Hoàng Long Vũ (Email: vu.hl204897@sis.hust.edu.vn)
