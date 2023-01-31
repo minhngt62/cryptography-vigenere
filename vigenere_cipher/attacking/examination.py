@@ -1,7 +1,6 @@
 # KASISKI METHOD
 import re
 from functools import reduce
-from fractions import gcd
 
 
 
@@ -54,6 +53,7 @@ def getNGramPositions(nGram, text):
     return positions
 
 def estimateKeyLength(cipheredText):
+    assert len(cipheredText) > 20
     def estimateKeyLength(cipheredText, maxSamples):
         tetraGrams = getNGrams(cipheredText, 4)
         triGrams = getNGrams(cipheredText, 3)
@@ -72,6 +72,7 @@ def estimateKeyLength(cipheredText):
         differences = []
         for pos in positions:
             differences += [y - x for x, y in zip(pos, pos[1:])]
+        print(differences)
         return reduce(gcd, differences)
 
     keyLength = 1
@@ -81,4 +82,12 @@ def estimateKeyLength(cipheredText):
         keyLength = estimateKeyLength(cipheredText, maxSamples)
     return cipheredText, keyLength
 
-        
+if __name__ == "__main__":
+    """
+    plain text: INTELLIPAAT
+    key: RINTELLIPAA
+    """
+    cipheredText = "ZVGXVGXPWTXDPAAFRTZVGX" #PWTXPATZVGXPWTXPAT"
+    print(len(cipheredText))
+    # print(find_key_length(cipheredText, SEQ_LEN, MAX_KEY_LEN))
+    print(estimateKeyLength(cipheredText=cipheredText))
