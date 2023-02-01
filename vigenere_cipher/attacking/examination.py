@@ -1,6 +1,9 @@
 # KASISKI METHOD
 
 from functools import reduce
+import sys
+sys.path.append('cryptography-vigenere/vigenere_cipher/attacking')
+import ic
 
 def gcd_2_helper(a: int, b: int) -> int:
 	if a == 0:
@@ -31,6 +34,25 @@ def kasiski(encrypted_text: str, str_size: int) -> int:
 	
 	return gcd_n(distance_set)
 
+def estimateKeyLength(encrypted_text: str) -> int:
+	key_length_candidates = set()
+	ngram_size_list = [3, 4, 5, 6, 7, 8, 9, 10]
+	for ngram_size in ngram_size_list:
+		key_length_candidates.add(kasiski(encrypted_text, ngram_size))
+
+	best_key_length = None
+	best_key_len_diff = ic.ic_english
+	for key_length in key_length_candidates:
+		ic_key_length = ic.index_of_coincidence(encrypted_text, key_length)
+		ic_key_length_diff =  abs(ic.ic_english - ic_key_length)
+		if best_key_len_diff > ic_key_length_diff:
+			best_key_len_diff = ic_key_length_diff
+			best_key_length = key_length
+	if best_key_length != None:
+		return best_key_length
+	else: 
+		return 1
+
 if __name__ == "__main__":
     """
     plain text: INTELLIPAAT
@@ -38,4 +60,4 @@ if __name__ == "__main__":
     """
     c = "PZEPHCIZYOYMBAPGIDLZMQEMAOCTRQOHGSDAXLYAIVUWKLCFHKZZDZCFZWYOAQOTTZZELWOWDTSMKWVZTFCMIWTLHGSMWWGKCCEETVVUDBQTBKVKDGSMWMEASSDBHOTSCHUWKLCFLVLBAMTWFIPAMACFSYPMIPKEWOAXRCPKJFAZBAKFVZJRHZFSCGNWETGSVIPAKMISGRSQFIUEPBTXNTCLXJPIGLRMHVJJNBVZTMOMVQFWICYWMZCAHSEPXQUKJSTVMPGZDDPBAIVBPBPIIXTWRWLBXAVZTWCIMBKLJRPIGLVZPHEPXQTSRVTMOMOWCHDAIMCCUCCBAMOKTZGMLACVAMEPXQTKIFLBXOAAHTLZEMUKTTQMVBKNTHSIGRQJSOYAPPKUWQLCLMUEDFPWYRCFTGCMIWTLHHZJNTNQWSCQGBQSEFZUHBKGC"
     c2 = "VHVSSPQUCEMRVBVBBBVHVSURQGIBDUGRNICJQUCERVUAXSSRVHVSSPQUCEMRVBVBBBVHVSURQGIBDUGRNICJQUCERVUAXSSRVHVSSPQUCEMRVBVBBBVHVSURQGIBDUGRNICJQUCERVUAXSSRVHVSSPQUCEMRVBVBBBVHVSURQGIBDUGRNICJQUCERVUAXSSRVHVSSPQUCEMRVBVBBBVHVSURQGIBDUGRNICJQUCERVUAXSSRVHVSSPQUCEMRVBVBBBVHVSURQGIBDUGRNICJQUCERVUAXSSR"
-    print(kasiski(c, 7))
+    print(estimateKeyLength(c))
