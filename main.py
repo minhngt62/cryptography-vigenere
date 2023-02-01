@@ -1,4 +1,5 @@
 import vigenere_cipher.attacking.cryptanalysis as crypt
+import vigenere_cipher.attacking.frequency_analysis as fa
 import vigenere_cipher.attacking.examination as exam
 import vigenere_cipher.cryption.keygen as keygen
 import vigenere_cipher.cryption.vigenere as vigenere
@@ -13,8 +14,8 @@ DEMO VIGENERE CIPHER
 '''
 
 def main():
-    key_length=10
-    plaintext = "HELLOMODAFAKA"
+    key_length=30
+    plaintext = "HELLOWORDHELLOWORDHELLOWORD"
     key = keygen.generate_key(key_length)
     vig_encryptor = vigenere.VigenereCipher(key, key_length)
     ciphertext = vig_encryptor.encrypt(plaintext)
@@ -25,21 +26,14 @@ def main():
     print("\tPlain text: ", plaintext)
     
     ciphertext = ciphertext.upper()
-    _, estimated_key_length = exam.estimateKeyLength(ciphertext)
-    key_letters = crypt.getKey(estimated_key_length, ciphertext)
-
-    if key_letters == []:
-        print("Unable to decrypt message")
-        exit(1)
-    
-    es_key = reduce(lambda x,y: x+y, key_letters)
-    message = crypt.decipher(ciphertext)
+    _, est_key_length = exam.estimateKeyLength(ciphertext)
+    est_key = fa.restore_key(ciphertext, est_key_length)
+    msg = crypt._decypher(ciphertext, est_key)
 
     print("Results")
-    print("\tEstimated key length: ", estimated_key_length)
-    print("\tEstimated key letters: ", key_letters)
-    print("\tEstimated key: ", es_key)
-    print("\tResultant message: ", message)
+    print("\tEstimated key length: ", est_key_length)
+    print("\tEstimated key: ", est_key)
+    print("\tResultant message: ", msg)
 
 
 if __name__ == '__main__':
