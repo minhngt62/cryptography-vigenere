@@ -1,6 +1,6 @@
-import processing
+from . import processing
 import string
-from const import EN_REL_FREQ
+from .const import EN_REL_FREQ
 
 
 def get_letter_counts(text):

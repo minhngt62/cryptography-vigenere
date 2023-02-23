@@ -2,8 +2,8 @@
 
 from functools import reduce
 import sys
-sys.path.append('cryptography-vigenere/vigenere_cipher/attacking')
-import ic
+#sys.path.append('cryptography-vigenere/vigenere_cipher/attacking')
+from . import ic
 
 def gcd_2_helper(a: int, b: int) -> int:
 	if a == 0:

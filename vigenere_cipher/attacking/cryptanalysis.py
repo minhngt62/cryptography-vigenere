@@ -1,7 +1,7 @@
-import examination
-import processing
-import frequency_analysis as fa
-from const import *
+from . import examination
+from . import processing
+from . import frequency_analysis as fa
+from .const import *
 import string
 
 

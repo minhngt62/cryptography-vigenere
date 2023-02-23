@@ -1,8 +1,4 @@
-import vigenere_cipher.attacking.cryptanalysis as crypt
-import vigenere_cipher.attacking.frequency_analysis as fa
-import vigenere_cipher.attacking.examination as exam
-import vigenere_cipher.cryption.keygen as keygen
-import vigenere_cipher.cryption.vigenere as vigenere
+from vigenere_cipher.attacking import attack
 
 from functools import reduce
 
@@ -14,26 +10,13 @@ DEMO VIGENERE CIPHER
 '''
 
 def main():
-    key_length=30
-    plaintext = "HELLOWORDHELLOWORDHELLOWORD"
-    key = keygen.generate_key(key_length)
-    vig_encryptor = vigenere.VigenereCipher(key, key_length)
-    ciphertext = vig_encryptor.encrypt(plaintext)
-
-    print("---PRIVATE PART---")
-    print("\tKey length: ", key_length)
-    print("\tActual key: ", key)
-    print("\tPlain text: ", plaintext)
+    file = 'test.txt'
+    with open(file) as f:
+        cyphertext = f.readlines()
+    print("Cyphertext: ", cyphertext[0])
     
-    ciphertext = ciphertext.upper()
-    _, est_key_length = exam.estimateKeyLength(ciphertext)
-    est_key = fa.restore_key(ciphertext, est_key_length)
-    msg = crypt._decypher(ciphertext, est_key)
-
-    print("Results")
-    print("\tEstimated key length: ", est_key_length)
-    print("\tEstimated key: ", est_key)
-    print("\tResultant message: ", msg)
+    print('---APPLYING KASISKI EXAMINATION---')
+    attack(file)
 
 
 if __name__ == '__main__':
